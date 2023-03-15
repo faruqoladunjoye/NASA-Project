@@ -1,8 +1,8 @@
 const { 
   getAllLaunches,
   existsLaunchWithId,
-  abortLaunchById,
   scheduleNewLaunch,
+  abortLaunchById,
 } = require('../../models/launches.model');
 
 async function httpGetAllLaunches(req, res) {

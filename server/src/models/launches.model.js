@@ -3,8 +3,6 @@ const planets = require('./planets.mongo');
 
 const DEFAULT_FLIGHT_NUMBER = 100;
 
-const launches = new Map();
-
 const launch = {
   flightNumber: 100,
   mission: 'Kepler Exploration X',
@@ -18,8 +16,10 @@ const launch = {
 
 saveLaunch(launch);
 
-function existsLaunchWithId(launchId) {
-  return launches.has(launchId);
+async function existsLaunchWithId(launchId) {
+  return await launchesDatabase.findOne({
+    flightNumber: launchId,
+  });
 };
 
 async function getLatestFlightNumber() {
@@ -27,7 +27,7 @@ async function getLatestFlightNumber() {
     .findOne()
     .sort('-flightNumber');
 
-  if (!latestLaunch){
+  if (!latestLaunch) {
     return DEFAULT_FLIGHT_NUMBER;
   }
 
@@ -48,7 +48,7 @@ async function saveLaunch(launch) {
     throw new Error('No matching planet was found');
   }
 
-  await launchesDatabase.updateOne({
+  await launchesDatabase.findOneAndUpdate({
     flightNumber: launch.flightNumber,
   }, launch, {
     upsert: true,
