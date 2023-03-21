@@ -14,7 +14,7 @@ const launch = {
   success: true,
 };
 
-saveLaunch(launch);
+// saveLaunch(launch);
 
 async function existsLaunchWithId(launchId) {
   return await launchesDatabase.findOne({
